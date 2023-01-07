@@ -1,0 +1,43 @@
+@startuml
+
+class Okno{
+void otworz()
+}
+class Biblioteka
+{
+String nazwa
+void odtworz()
+int ilosc_zgadniec
+void sprawdz()
+
+}
+class Durmoll{
+String odpowiedz
+}
+class Akordy1{
+String odpowiedz
+}
+class Akordy2{
+String odpowiedz
+}
+class Akordy3{
+String odpowiedz
+}
+class Dzwieki1{
+String odpowiedz
+}
+class Dzwieki2{
+String odpowiedz
+}
+class Nauka{
+void do_nauki()
+}
+Biblioteka-->Okno
+Okno-->Durmoll
+Okno-->Akordy1
+Okno-->Akordy2
+Okno-->Akordy3
+Okno-->Dzwieki1
+Okno-->Dzwieki2
+Okno-->Nauka
+@enduml
