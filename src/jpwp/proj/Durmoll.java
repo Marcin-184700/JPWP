@@ -6,6 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+/**
+ * This class is for first level of the game
+ * @author Marcin Oliński 184700
+ */
+
 public class Durmoll extends JFrame {
 
     JButton pianino = new JButton(new ImageIcon("piano.png"));
@@ -13,12 +18,20 @@ public class Durmoll extends JFrame {
     JButton dur = new JButton();
     JButton moll = new JButton();
     JButton dalej = new JButton(new ImageIcon("dalej.png"));
+
+    JButton wyjdz = new JButton(new ImageIcon("wyjdz.png"));
+
+    /**
+     *  licznik is for count how many times has been chosen th correct answer
+     *  poprzedni contains number of previous number
+     *  nr number of sound option
+     */
+
+
     int licznik=0;
     int poprzedni;
-    public boolean gotowe=false;
 
     int nr;
-    public String Odp;
 
     Durmoll() {
         this.setSize(1280, 1024);
@@ -59,16 +72,22 @@ public class Durmoll extends JFrame {
         dalej.setFocusable(false);
 
 
+        wyjdz.setBounds(50, 660, 263,134);
+        wyjdz.setFocusable(false);
+        wyjdz.setEnabled(true);
+
+
 
         this.getContentPane().setBackground(new Color(50, 50, 50));
-        //SwingUtilities.updateComponentTreeUI(this);
-        //pianino.setLocation(0, 50);
-        //gitara.setLocation(200, 50);
-        //dur.setLocation(400, 50);
-        //moll.setLocation(600, 50);
-        //dalej.setLocation(800, 50);
+
+        this.add(wyjdz);
     }
 
+
+    /**
+     * This methos is for choosing random number.
+     * When drawed number is the same as previous one another number is choosen.
+     */
 
     public void losowanie() {
         Random numer = new Random();
@@ -85,8 +104,15 @@ public class Durmoll extends JFrame {
         moll.setEnabled(true);
     }
 
+    /**
+     * This method is used to start the game
+     */
 
     public void gra() {
+
+        /**
+         *  tab contains objects Biblioteka type
+         */
         losowanie();
         Biblioteka[] tab;
         tab = new Biblioteka[10];
@@ -101,11 +127,18 @@ public class Durmoll extends JFrame {
         tab[8] = new Biblioteka("Gdur");
         tab[9] = new Biblioteka("Gmoll");
 
-        System.out.println(tab[nr].pathp);
         tab[nr].odtworzp();
+
+        /**
+         *  zagraj is for playing audio file
+         */
 
 
         ActionListener zagraj = new ActionListener() {
+            /**
+             * This method is for choosing right method: piano or guitar, from Biblioteka class
+             * @param e gets source from button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -122,7 +155,15 @@ public class Durmoll extends JFrame {
         gitara.addActionListener(zagraj);
         pianino.addActionListener(zagraj);
 
+        /**
+         *  nastepne is used for moving to the next question or exit game
+         */
+
         ActionListener nastepne = new ActionListener() {
+            /**
+             * This method is used to dalej button
+             * @param e gets source from button
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -135,7 +176,34 @@ public class Durmoll extends JFrame {
             }
         };
 
+        /**
+         * This method is used to wyjdz button
+         * @param e gets source from button
+         */
+
+        ActionListener wyjscie = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                if(e.getSource()==wyjdz);
+                {
+                    zamknij();
+                    Okno o = new Okno();
+                }
+
+            }
+        };
+        wyjdz.addActionListener(wyjscie);
+        /**
+         *  odpowiedz is for getting information about user's answer
+         */
+
             ActionListener odpowiedz = new ActionListener() {
+                /**
+                 * This method is for checking chosen option
+                 * @param e gets source from buttons
+                 */
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
@@ -148,6 +216,8 @@ public class Durmoll extends JFrame {
                             }
                             else{
                                 gratulacje();
+                                dalej.removeActionListener(this);
+
                             }
                         }
                         else{
@@ -169,6 +239,7 @@ public class Durmoll extends JFrame {
                             }
                             else{
                                 gratulacje();
+                                dalej.removeActionListener(this);
                             }
                         }
                         else{
@@ -181,8 +252,6 @@ public class Durmoll extends JFrame {
                     }
                     dur.setEnabled(false);
                     moll.setEnabled(false);
-                    Odp="moll";
-                    System.out.println(Odp);
                     dalej.addActionListener(nastepne);
 
                 }
@@ -196,9 +265,49 @@ public class Durmoll extends JFrame {
 
 
         };
+
+    /**
+     * This method is for closing this window.
+     */
+    void zamknij(){
+
+        this.dispose();
+
+    }
+
+    /**
+     * This void is for finishing a game.
+     */
     public void gratulacje(){
 
         this.getContentPane().removeAll();
+        this.add(dalej);
+        this.remove(wyjdz);
+
+
+        /**
+         *  kontynuuj is for going back to the menu.
+         */
+        ActionListener kontynuuj = new ActionListener() {
+            /**
+             * This method is for checking if dalej was clicked.
+             * @param e gets source from dalej button.
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(e.getSource()==dalej){
+
+                    zamknij();
+
+                    Okno o = new Okno();
+
+                }
+
+            }
+        };
+        dalej.addActionListener(kontynuuj);
+
         this.repaint();
 
         JTextField napis = new JTextField();
@@ -208,7 +317,7 @@ public class Durmoll extends JFrame {
         napis.setDisabledTextColor(Color.green);
         napis.setSelectedTextColor(Color.green);
         napis.setHorizontalAlignment(JTextField.CENTER);
-        napis.setBackground(Color.black);
+        napis.setBackground(Color.white);
         this.add(napis);
 
         JTextField napis2 = new JTextField();
@@ -218,7 +327,7 @@ public class Durmoll extends JFrame {
         napis2.setDisabledTextColor(Color.green);
         napis2.setSelectedTextColor(Color.green);
         napis2.setHorizontalAlignment(JTextField.CENTER);
-        napis2.setBackground(Color.black);
+        napis2.setBackground(Color.white);
         this.add(napis2);
 
         JTextField napis3 = new JTextField();
@@ -228,7 +337,7 @@ public class Durmoll extends JFrame {
         napis3.setDisabledTextColor(Color.green);
         napis3.setSelectedTextColor(Color.green);
         napis3.setHorizontalAlignment(JTextField.CENTER);
-        napis3.setBackground(Color.black);
+        napis3.setBackground(Color.white);
         this.add(napis3);
 
         JTextField napis4 = new JTextField();
@@ -238,9 +347,9 @@ public class Durmoll extends JFrame {
         napis4.setDisabledTextColor(Color.green);
         napis4.setSelectedTextColor(Color.green);
         napis4.setHorizontalAlignment(JTextField.CENTER);
-        napis4.setBackground(Color.black);
+        napis4.setBackground(Color.white);
         this.add(napis4);
-        gotowe=true;
+
 
 
     }

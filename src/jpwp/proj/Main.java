@@ -1,10 +1,15 @@
 package jpwp.proj;
 
+/**
+ * This is main class
+ * @author Marcin Oliński 184700
+ */
+
 public class Main {
-
-
-
-
+    /**
+     * This is main method
+     * @param args
+     */
 
 
     public static void main(String[] args) {
